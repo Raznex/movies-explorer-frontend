@@ -1,0 +1,29 @@
+.movies {
+  padding: 70px 70px 30px;
+  background-color: white;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, 270px);
+  grid-template-rows: repeat(auto-fit, 218px);
+  gap: 32px 20px;
+  align-items: center;
+  justify-content: center;
+  box-sizing: content-box;
+}
+
+@media screen and (max-width: 800px) {
+  .movies {
+    padding: 70px 30px 30px;
+    grid-template-columns: repeat(auto-fit, 339px);
+    grid-template-rows: repeat(auto-fit, 257px);
+    gap: 36px 30px;
+  }
+}
+
+@media screen and (max-width: 500px) {
+  .movies {
+    padding: 40px 10px 30px;
+    grid-template-columns: repeat(auto-fit, 300px);
+    grid-template-rows: repeat(auto-fit, 238px);
+    gap: 30px;
+  }
+}
