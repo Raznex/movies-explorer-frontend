@@ -16,7 +16,7 @@ const AboutMe = () => {
             компании «СКБ Контур». После того, как прошёл курс по веб-разработке, начал заниматься фриланс-заказами и
             ушёл с постоянной работы.</p>
           </div>
-          <a href="https://github.com/Raznex" target="_blank" className="about__github">Github</a>
+          <a href="https://github.com/Raznex" rel="noreferrer" target="_blank" className="about__github">Github</a>
         </div>
         <img src={avatar} alt="Ваш аватар" className="about__photo"/>
       </div>

@@ -1,7 +1,7 @@
 .register {
   font-family: "Inter", Arial, sans-serif;
   background-color: #fff;
-  padding: 0 0 70px;
+  padding: 50px 0 70px;
   margin: 0 auto;
   display: flex;
   flex-direction: column;
@@ -116,13 +116,13 @@
 
 @media screen and (max-width: 800px) {
   .register {
-    padding: 160px 0 232px;
+    padding: 232px 0 232px;
   }
 }
 
 @media screen and (max-width: 550px) {
   .register {
-    padding: 0 30px 20px;
+    padding: 56px 30px 20px;
     align-items: center;
   }
 
