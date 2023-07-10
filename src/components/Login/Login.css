@@ -70,6 +70,7 @@
 }
 
 .login__submit {
+  text-decoration: none;
   font-family: "Inter", Arial, sans-serif;
   border: none;
   background-color: #3456F3;

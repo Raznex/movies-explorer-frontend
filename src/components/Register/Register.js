@@ -1,11 +1,14 @@
 import React from 'react';
 import './Register.css'
 import logo from '../../images/header__logo.svg'
+import {Link, Route, Routes} from "react-router-dom";
 
 const Register = () => {
   return (
-    <section className="register">
-      <img src={logo} alt="" className="register__logo"/>
+    <main className="register">
+      <Routes>
+        <Route path="/" element={<Link id='signInImg' to="/"><img src={logo} alt="Логотип" className="register__logo"/></Link>} />
+      </Routes>
       <h2 className="register__title">Добро пожаловать!</h2>
       <form className="register__form">
         <div className="register__inputs">
@@ -49,12 +52,17 @@ const Register = () => {
           </input>
         </div>
         </div>
-        <button type="submit" className="register__submit">Зарегестрироваться</button>
-        <p className="register__question">Уже зарегистрированы?
-          <a href="/" className="register__login"> Войти</a>
-        </p>
+        <Routes>
+          <Route path="/" element={<>
+            <Link to="/signin" className="register__submit">Зарегестрироваться</Link>
+            <p className="register__question">Уже зарегистрированы?
+            <Link to="/signin" className="register__login"> Войти</Link>
+            </p>
+          </>
+          }/>
+        </Routes>
       </form>
-    </section>
+    </main>
   );
 };
 

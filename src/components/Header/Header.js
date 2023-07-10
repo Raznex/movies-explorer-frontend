@@ -1,7 +1,7 @@
 import React from 'react';
 import './Header.css'
 import logo from '../../images/header__logo.svg'
-import {Link, Routes, Route, useLocation, Navigate} from 'react-router-dom';
+import { Link, Routes, Route, useLocation } from 'react-router-dom';
 
 const Header = ({ onOpenMenu }) => {
   let location = useLocation();
@@ -10,26 +10,28 @@ const Header = ({ onOpenMenu }) => {
     <header className={`${(location.pathname !== "/" && location.pathname !== "/movies" && location.pathname !== "/saved-movies" && location.pathname !== "/profile") ? "header__hidden" : (location.pathname === "/" ? "header__profile" : "header")}`}>
     <Routes>
         {["/", "/movies", "/saved-movies", "/profile"].map((path) => (
-          <Route path={path} element={<Link to="/"><img className="header__image" src={logo} alt="Movies Explorer" /></Link>} />
+          <Route key={path} path={path} element={<Link id='profileImg' to="/"><img className="header__image" src={logo} alt="Movies Explorer" /></Link>} />
         ))}
       </Routes>
       <div className="header__nav">
-        <button className={`header__button_menu`}
+        <button className={`${(location.pathname === "/movies" || location.pathname === "/saved-movies" || location.pathname === "/profile") ? "header__button_menu" : "header__button_hidden"}`}
                 onClick={onOpenMenu}/>
         <Routes>
           {["/movies", "/saved-movies", "/profile"].map((path) => (
-            <Route path={path} element={<>
-              <Link to="/movies" className={`header__navlink`}>Фильмы</Link>
-              <Link to="/saved-movies" className={`header__navlink`}>Сохранённые фильмы</Link>
-              <Link to="/profile" className="header__navlink header__navlink-account">Аккаунт</Link>
+            <Route key={path} path={path} element={<>
+              <Link to="/movies" id='moviesLink' className={`header__navlink`}>Фильмы</Link>
+              <Link to="/saved-movies" id='savedMoviesLink' className={`header__navlink`}>Сохранённые фильмы</Link>
+              <Link to="/profile"  id='profileLink' className="header__navlink header__navlink-account">Аккаунт</Link>
             </>} />
           ))}
         </Routes>
       </div>
-      {/*<nav className="header__menu">*/}
-      {/*  <button href="" className="header__link">Регистрация</button>*/}
-      {/*  <button href="" className="header__link header__link_login">Войти</button>*/}
-      {/*  </nav>*/}
+      <Routes>
+          <Route path="/" element={<div>
+            <Link to="/signup" id='registerLink' className={`header__link`}>Регистрация</Link>
+            <Link to="/signin" id='loginLink' className={`header__link header__link_login`}>Войти</Link>
+          </div>} />
+      </Routes>
     </header>
   );
 };

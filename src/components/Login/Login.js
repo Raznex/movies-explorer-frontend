@@ -1,11 +1,14 @@
 import React from 'react';
 import logo from "../../images/header__logo.svg";
 import './Login.css'
+import {Link, Route, Routes} from "react-router-dom";
 
 const Login = () => {
   return (
-    <section className="login">
-      <img src={logo} alt="" className="login__logo"/>
+    <main className="login">
+      <Routes>
+          <Route path="/" element={<Link id='signInImg' to="/"><img src={logo} alt="Логотип" className="login__logo"/></Link>} />
+      </Routes>
       <h2 className="login__title">Рады видеть!</h2>
       <form className="login__form">
         <div className="login__inputs">
@@ -36,12 +39,17 @@ const Login = () => {
             </input>
           </div>
         </div>
-        <button type="submit" className="login__submit">Войти</button>
-        <p className="login__question">Ещё не зарегистрированы?
-          <a href="/" className="login__login"> Регистрация</a>
-        </p>
+        <Routes>
+          <Route path="/" element={<>
+            <Link to="/" className="login__submit">Войти</Link>
+            <p className="login__question">Ещё не зарегистрированы?
+              <Link to="/signup" className="login__login"> Регистрация</Link>
+            </p>
+          </>
+          }/>
+        </Routes>
       </form>
-    </section>
+    </main>
   );
 };
 

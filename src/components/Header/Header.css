@@ -30,6 +30,8 @@
 }
 
 .header__link {
+  text-decoration: none;
+  text-align: center;
   font-family: "Inter", Arial, sans-serif;
   font-size: 12px;
   font-style: normal;
@@ -89,9 +91,7 @@
   color: #000;
   background-color: #2BE080;
   border-radius: 3px;
-  background-size: 76px 32px;
-  width: 76px;
-  height: 32px;
+  padding: 8px 20px;
 }
 
 .header__button_menu {
@@ -106,6 +106,10 @@
   border: none;
   opacity: 1;
   transition: opacity 0.5s ease-in-out 0s;
+  display: none;
+}
+
+.header__button_hidden {
   display: none;
 }
 
@@ -143,7 +147,6 @@
   }
 
   .header__link_login {
-    width: 56px;
-    height: 26px;
+    padding: 5px 12px;
   }
 }

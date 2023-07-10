@@ -3,7 +3,7 @@ import './Profile.css'
 
 const Profile = () => {
   return (
-    <section className="profile">
+    <main className="profile">
       <h2 className="profile__hello">Привет, Виталий!</h2>
       <form className="profile__form">
         <div className="profile__input">
@@ -40,7 +40,7 @@ const Profile = () => {
         <button className="profile__edit">Редактировать</button>
         <button className="profile__quit">Выйти из аккаунта</button>
       </form>
-    </section>
+    </main>
   );
 };
 

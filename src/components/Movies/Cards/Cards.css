@@ -79,7 +79,15 @@
   background-position: center;
   background-color: transparent;
   box-shadow: none;
+  opacity: 1;
+  transition: opacity 0.5s ease-in-out 0s;
 }
+
+.card__like_saved:hover {
+  opacity: 0.5;
+  cursor: pointer;
+}
+
 
 @media screen and (max-width: 800px) {
   .card__image {

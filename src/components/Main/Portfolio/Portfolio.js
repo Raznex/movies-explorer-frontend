@@ -19,7 +19,7 @@ const Portfolio = () => {
             <img src={arrow} alt="" className="portfolio__arrow"/>
           </li>
           <li className="portfolio__button">
-            <a href="https://raznex.github.io/signin" rel="noreferrer" target="_blank" className="portfolio__link">Одностраничное приложение
+            <a href="https://raznex.github.io/react-mesto-auth" rel="noreferrer" target="_blank" className="portfolio__link">Одностраничное приложение
             </a>
             <img src={arrow} alt="" className="portfolio__arrow"/>
           </li>
