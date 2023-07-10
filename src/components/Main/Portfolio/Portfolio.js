@@ -10,18 +10,18 @@ const Portfolio = () => {
         <ul className="portfolio__list">
           <li className="portfolio__button">
             <a href="https://raznex.github.io/how-to-learn/" rel="noreferrer" target="_blank" className="portfolio__link">Статичный сайт
+              <img src={arrow} alt="" className="portfolio__arrow"/>
             </a>
-            <img src={arrow} alt="" className="portfolio__arrow"/>
           </li>
           <li className="portfolio__button">
             <a href="https://raznex.github.io/russian-travel/" rel="noreferrer" target="_blank" className="portfolio__link">Адаптивный сайт
+              <img src={arrow} alt="" className="portfolio__arrow"/>
             </a>
-            <img src={arrow} alt="" className="portfolio__arrow"/>
           </li>
           <li className="portfolio__button">
             <a href="https://raznex.github.io/react-mesto-auth" rel="noreferrer" target="_blank" className="portfolio__link">Одностраничное приложение
+              <img src={arrow} alt="" className="portfolio__arrow"/>
             </a>
-            <img src={arrow} alt="" className="portfolio__arrow"/>
           </li>
         </ul>
       </nav>

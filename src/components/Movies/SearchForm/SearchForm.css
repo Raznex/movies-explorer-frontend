@@ -42,6 +42,12 @@
   margin: 0;
   padding: 0;
   text-align: start;
+  border-radius: 5px;
+}
+
+.search__input:focus {
+  outline: 2px solid rgba(52, 86, 243, 0.6);
+  outline-offset: 5px;
 }
 
 .search__input::placeholder {
@@ -50,10 +56,6 @@
   line-height: 20px;
   color: #A0A0A0;
   text-align: start;
-}
-
-.search__input:focus {
-  outline: none;
 }
 
 .search__submit {

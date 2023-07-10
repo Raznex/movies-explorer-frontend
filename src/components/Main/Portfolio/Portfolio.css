@@ -44,6 +44,10 @@
 }
 
 .portfolio__link {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+  align-items: center;
   color: #000;
   font-size: 30px;
   font-style: normal;

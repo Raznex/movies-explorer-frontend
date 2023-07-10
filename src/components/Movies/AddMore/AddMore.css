@@ -5,6 +5,7 @@
 
 .more__button {
   text-align: center;
+  border-radius: 6px;
   color: #000;
   font-family: "Inter", Arial, sans-serif;
   font-size: 12px;
