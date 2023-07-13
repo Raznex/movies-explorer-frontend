@@ -7,6 +7,7 @@
   overflow: hidden;
   font-family: "Inter", Arial, sans-serif;
   box-shadow: 1px 8px 20px rgba(0, 0 ,0, 0.1);
+  height: 218px;
 }
 
 .card__image {
@@ -32,6 +33,7 @@
 }
 
 .card__name {
+  text-align: left;
   color: #000;
   font-size: 13px;
   font-style: normal;
@@ -39,6 +41,10 @@
   line-height: normal;
   margin: 0;
   padding: 0;
+  max-width: 206px;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  overflow: hidden;
 }
 
 .card__duration {
@@ -67,6 +73,10 @@
   cursor: pointer;
 }
 
+.card__like_hidden {
+  display: none;
+}
+
 .card__like_active {
   background-color: #2BE080;
 }
@@ -93,10 +103,18 @@
   .card__image {
    height: 190px;
   }
+
+  .card {
+    height: 257px;
+  }
 }
 
 @media screen and (max-width: 500px) {
   .card__image {
     height: 168px;
+  }
+
+  .card {
+    height: 238px;
   }
 }

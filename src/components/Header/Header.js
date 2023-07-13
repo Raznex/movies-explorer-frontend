@@ -4,7 +4,7 @@ import logo from '../../images/header__logo.svg'
 import { Link, Routes, Route, useLocation } from 'react-router-dom';
 
 const Header = ({ onOpenMenu }) => {
-  let location = useLocation();
+  const location = useLocation();
 
   return (
     <header className={`${(location.pathname !== "/" && location.pathname !== "/movies" && location.pathname !== "/saved-movies" && location.pathname !== "/profile") ? "header__hidden" : (location.pathname === "/" ? "header__profile" : "header")}`}>

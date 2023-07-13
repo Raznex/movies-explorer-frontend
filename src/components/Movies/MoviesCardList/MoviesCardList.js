@@ -1,26 +1,22 @@
 import React from 'react';
 import './MoviesCardList.css'
 import Cards from "../Cards/Cards";
-import AddMore from "../AddMore/AddMore";
+// import AddMore from "../AddMore/AddMore";
 
-const MoviesCardList = () => {
-  const [visibleCards, setVisibleCards] = React.useState(12);
-
-  const handleShowMore = () => {
-    setVisibleCards(prevVisibleCards => {
-      const remainingCards = 16 - prevVisibleCards; // Вычисляем количество оставшихся карточек
-
-      // Возвращаем либо 12, либо оставшиеся карточки
-      return prevVisibleCards + Math.min(12, remainingCards);
-    });
-  };
-
+const MoviesCardList = ({ movies, onSave }) => {
   return (
     <>
       <section className="movies">
-        {[...Array(visibleCards)].map((_, index) => <Cards key={index}/>)}
+        {movies?.map((movie) => {
+          return (
+            <Cards
+              key={movie.id}
+              movie={movie}
+              onSave={onSave}
+            />
+          );
+        })}
       </section>
-      {visibleCards < 16 && <AddMore handleShowMore={handleShowMore}/>}
     </>
   );
 };
