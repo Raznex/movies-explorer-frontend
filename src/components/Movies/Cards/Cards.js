@@ -2,7 +2,7 @@ import React from 'react';
 import './Cards.css'
 import { useLocation } from 'react-router-dom';
 
-const Cards = ({movie, onSave}) => {
+const Cards = ({movie, onSave, onDeleteMovie }) => {
   const location = useLocation();
   const hours = Math.floor(movie.duration/60);
   const min = movie.duration-(hours*60);
@@ -10,6 +10,11 @@ const Cards = ({movie, onSave}) => {
   function handleSaveMovie(e) {
     e.preventDefault();
     onSave(movie);
+  }
+
+  function handleDeleteMovie(e) {
+    e.preventDefault();
+    onDeleteMovie(movie);
   }
 
   return (
@@ -26,7 +31,7 @@ const Cards = ({movie, onSave}) => {
                 onClick={handleSaveMovie}>
         </button>
         <button id="buttonTrash" className={`${(location.pathname === "/saved-movies") ? "card__like_saved" : "card__like_hidden"}`}
-                onClick={handleSaveMovie}>
+                onClick={handleDeleteMovie}>
         </button>
       </div>
     </article>

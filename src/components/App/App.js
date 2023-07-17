@@ -1,5 +1,5 @@
 import './App.css';
-import { React, useState, useEffect } from "react";
+import {React, useState, useEffect} from "react";
 import Header from "../Header/Header";
 import Login from "../Login/Login";
 import Footer from "../Footer/Footer";
@@ -15,6 +15,7 @@ import mainApi from "../../utils/MainApi";
 import moviesApi from "../../utils/MoviesApi";
 import auth from "../../utils/Auth";
 import {UserContext} from "../../context/UserContext";
+import ProtectedRoute from "../../utils/ProtectedRoute";
 
 function App() {
   const [currentUser, setCurrentUser] = useState({});
@@ -33,18 +34,45 @@ function App() {
   const [isFilterCheckedMoviesSaved, setIsFilterCheckedMoviesSaved] = useState(false);
   const [isInputMoviesSaved, setIsInputMoviesSaved] = useState('');
   const [errorMessage, setErrorMessage] = useState('');
-  const navigate = useNavigate()
+  const [errorMessageProfile, setErrorMessageProfile] = useState('');
+  const [isEditing, setIsEditing] = useState(false);
+  const [buttonDisabled, setButtonDisabled] = useState(false);
+  const navigate = useNavigate();
   const location = useLocation();
+
+  console.log(loggedIn)
+  const cbCheckToken = () => {
+    const jwt = localStorage.getItem("jwt")
+    console.log(jwt)
+    if (jwt) {
+      auth
+        .checkToken(jwt)
+        .then((res) => {
+          console.log(res);
+          if (res) {
+            setLoggedIn(true);
+            navigate("/", {replace: true});
+          }
+        })
+        .catch((err) => console.log(err));
+    }
+  };
+
+  useEffect(() => {
+    cbCheckToken();
+  }, []);
 
   useEffect(() => {
     // setIsPreloaderLoading(true);
-    Promise.all([mainApi.getUserInfo(), mainApi.getSavedMovies()])
-      .then(([data, movies]) => {
-        setCurrentUser(data.user);
-        setSavedMovies(movies);
-      })
-      .catch((err) => console.log(err))
+    if (loggedIn) {
+      Promise.all([mainApi.getUserInfo(), mainApi.getSavedMovies()])
+        .then(([data, movies]) => {
+          setCurrentUser(data.user);
+          setSavedMovies(movies);
+        })
+        .catch((err) => console.log(err))
       // .finally(() => setIsPreloaderLoading(false));
+    }
   }, [loggedIn]);
 
   useEffect(() => {
@@ -62,8 +90,8 @@ function App() {
         setIsFilterChecked(true);
       } else setIsFilterChecked(false)
     } else if (location.pathname === '/profile') {
-      // setIsEditing(false);
-      // setErrorMessageProfile('');
+      setIsEditing(false);
+      setErrorMessageProfile('');
     }
     // setIsPreloaderLoading(false);
   }, [location]);
@@ -137,21 +165,6 @@ function App() {
       .catch((err) => console.log(err))
       .finally(() => setIsLoading(false));
   }
-  const handleTokenCheck = () => {
-    auth
-      .checkToken()
-      .then((res) => {
-        if (res) {
-          setLoggedIn(true);
-        }
-      })
-      .catch((err) => console.log(err))
-      // .finally(() => setIsPreloaderLoading(false));
-  };
-  useEffect(() => {
-    // setIsPreloaderLoading(true);
-    handleTokenCheck();
-  }, []);
 
   function handleRegister(formValue) {
     setIsAuthLoading(true);
@@ -172,10 +185,11 @@ function App() {
     setIsAuthLoading(true);
     auth
       .authorize(formValue.email, formValue.password)
-      .then((data) => {
-        if (data) {
+      .then((res) => {
+        if (res.token) {
+          console.log(res);
           setLoggedIn(true);
-          navigate("/movies", { replace: true });
+          navigate("/movies", {replace: true});
         }
       })
       .catch((err) => {
@@ -192,6 +206,7 @@ function App() {
     function handleWindowResize() {
       setWindowSize(getWindowSize());
     }
+
     window.addEventListener('resize', handleWindowResize);
 
     return () => {
@@ -236,7 +251,8 @@ function App() {
       return data.filter(movie => (movie.duration < 40) && (movie.nameRU.toLowerCase().includes(inputData.toLowerCase())));
     } else {
       return data.filter(movie => movie.nameRU.toLowerCase().includes(inputData.toLowerCase()));
-    };
+    }
+    ;
   }
 
   function handleRenderMovies(filteredArr) {
@@ -260,7 +276,7 @@ function App() {
     localStorage.setItem('input', input.input)
     moviesApi.getMovies()
       .then((data) => {
-        const filtered = handleFilterMovies( (localStorage.isFilterChecked === 'true'), data, input.input);
+        const filtered = handleFilterMovies((localStorage.isFilterChecked === 'true'), data, input.input);
         handleRenderMovies(filtered);
       })
       .catch((err) => console.log(err))
@@ -283,76 +299,140 @@ function App() {
     }
   }
 
-  function closeMenu () {
+  function closeMenu() {
     setIsMenuOpen(false);
+  }
+
+  function onEditProfileSubmit(formValue) {
+    setIsLoading(true);
+    mainApi.editProfile(formValue)
+      .then((data) => {
+        setCurrentUser(data.user);
+        setErrorMessageProfile('');
+        setIsEditing(false);
+      })
+      .catch((err) => {
+        setErrorMessageProfile(err.message);
+      })
+      .finally(() => {
+        setIsLoading(false);
+      });
+  }
+
+  function handleLogout() {
+    auth.logout()
+      .then((data) => {
+        console.log(data.message);
+        localStorage.clear();
+        setMovies([]);
+        setSavedMovies([]);
+        setLoggedIn(false);
+        setFilterMovies([]);
+        setErrorMessage('');
+        setIsFilterChecked(false);
+        setIsFilterCheckedMoviesSaved(false);
+        setCurrentUser(false);
+        setErrorMessageProfile(false);
+      })
+      .catch((err) => console.log(err));
   }
 
   return (
     <UserContext.Provider value={currentUser}>
-    <div className="app">
-      <Header
-      onOpenMenu={() => setIsMenuOpen(true)}
-      />
-      <Routes>
-        <Route
-          path='*'
-          element={<PageNotFound/>}
+      <div className="app">
+        <Header
+          onOpenMenu={() => setIsMenuOpen(true)}
+          loggedIn={loggedIn}
         />
-        <Route
-          path="/"
-          element={<Main/>}
-        />
-        <Route
-          path="/signup"
-          element={
-            <Register
-              handleRegister={handleRegister}
-              errorMessage={errorMessage}
-              setErrorMessage={setErrorMessage}
-              isAuthLoading={isAuthLoading}
-            />
-          }
-        />
-        <Route
-          path="/signin"
-          element={
-            <Login
-              handleLogin={handleLogin}
-              errorMessage={errorMessage}
-              setErrorMessage={setErrorMessage}
-              isAuthLoading={isAuthLoading}
-            />
-          }
-        />
-        <Route
-          path='/movies'
-          element={<Movies
-            handleSearch={handleMovieSearch}
-            movies={movies}
-            onAddMore={handleAddMoreMovie}
-            isMore={isMore}
-            isLoading = {isLoading}
-            isChecked={isFilterChecked}
-            setIsChecked={setIsFilterChecked}
-            onFilterCheckbox={handleFilterCheck}
-            onSaveMovie={handleSaveMovie}
-            onMovieSearch={handleMovieSearch}
-          />}
-        />
-        <Route
-          path='/profile'
-          element={<Profile/>}
-        />
-        <Route
-          path='/saved-movies'
-          element={<SavedMovies/>}
-        />
-      </Routes>
-      <Footer/>
-      <Navigation
-        isOpen={isMenuOpen}
-        onClose={closeMenu}/>
-    </div>
+        <Routes>
+          <Route
+            path='*'
+            element={<PageNotFound/>}
+          />
+          <Route
+            path="/"
+            element={<Main/>}
+          />
+          <Route
+            path="/signup"
+            element={
+              <Register
+                handleRegister={handleRegister}
+                errorMessage={errorMessage}
+                setErrorMessage={setErrorMessage}
+                isAuthLoading={isAuthLoading}
+              />
+            }
+          />
+          <Route
+            path="/signin"
+            element={
+              <Login
+                handleLogin={handleLogin}
+                errorMessage={errorMessage}
+                setErrorMessage={setErrorMessage}
+                isAuthLoading={isAuthLoading}
+              />
+            }
+          />
+          <Route
+            path='/movies'
+            element={
+              <ProtectedRoute
+                element={Movies}
+                handleSearch={handleMovieSearch}
+                movies={movies}
+                onAddMore={handleAddMoreMovie}
+                isMore={isMore}
+                isLoading={isLoading}
+                isChecked={isFilterChecked}
+                setIsChecked={setIsFilterChecked}
+                onFilterCheckbox={handleFilterCheck}
+                onSaveMovie={handleSaveMovie}
+                loggedIn={loggedIn}
+              />
+            }
+          />
+          <Route
+            path="/profile"
+            element={
+              <ProtectedRoute
+                element={Profile}
+                isLoading={isLoading}
+                onLogout={handleLogout}
+                isEditing={isEditing}
+                setIsEditing={setIsEditing}
+                onEditProfileSubmit={onEditProfileSubmit}
+                errorMessageProfile={errorMessageProfile}
+                loggedIn={loggedIn}
+                buttonDisabled={buttonDisabled}
+                setButtonDisabled={setButtonDisabled}
+              />
+            }
+          />
+          <Route
+            path='/saved-movies'
+            element={
+              <ProtectedRoute
+                element={SavedMovies}
+                onAddMore={handleAddMoreMovie}
+                isLoading={isLoading}
+                savedMovies={savedMovies}
+                onFilterCheckbox={handleSavedFilterCheck}
+                isChecked={isFilterCheckedMoviesSaved}
+                setIsChecked={setIsFilterCheckedMoviesSaved}
+                onMovieSearch={handleSavedMovieSearch}
+                onDeleteMovie={handleDeleteMovie}
+                loggedIn={loggedIn}
+              />
+            }
+          />
+        </Routes>
+        <Footer/>
+        <Navigation
+          isOpen={isMenuOpen}
+          onClose={closeMenu}/>
+      </div>
     </UserContext.Provider>
   );
 }

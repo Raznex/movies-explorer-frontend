@@ -3,7 +3,7 @@ import './MoviesCardList.css'
 import Cards from "../Cards/Cards";
 // import AddMore from "../AddMore/AddMore";
 
-const MoviesCardList = ({ movies, onSave }) => {
+const MoviesCardList = ({ movies, onSave, onDeleteMovie }) => {
   return (
     <>
       <section className="movies">
@@ -13,6 +13,7 @@ const MoviesCardList = ({ movies, onSave }) => {
               key={movie.id}
               movie={movie}
               onSave={onSave}
+              onDeleteMovie={onDeleteMovie}
             />
           );
         })}

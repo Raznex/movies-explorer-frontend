@@ -6,7 +6,8 @@ import MoviesCardList from "./MoviesCardList/MoviesCardList";
 import AddMore from "./AddMore/AddMore";
 import Preloader from '../Preloader/Preloader'
 
-const Movies = ({handleSearch,
+const Movies = ({
+                  handleSearch,
                   movies,
                   onAddMore,
                   isMore,
@@ -15,7 +16,7 @@ const Movies = ({handleSearch,
                   onFilterCheckbox,
                   isLoading,
                   onSaveMovie,
-}) => {
+                }) => {
   const location = useLocation();
 
   return (
@@ -26,14 +27,14 @@ const Movies = ({handleSearch,
         setIsChecked={setIsChecked}
         onFilterCheckbox={onFilterCheckbox}
       />
-      {(isLoading && <Preloader />) ||
+      {(isLoading && <Preloader/>) ||
         (location.pathname === "/movies"
           ? (localStorage.nothingFound && <h2 className="movies__notfound">{localStorage.nothingFound}</h2>)
           : (<h2 className="movies__notfound">Ничего не найдено</h2>)) ||
-      <MoviesCardList
-        movies={movies}
-        onSave={onSaveMovie}
-      />
+        <MoviesCardList
+          movies={movies}
+          onSave={onSaveMovie}
+        />
       }
       {isMore &&
         <AddMore

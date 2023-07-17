@@ -1,7 +1,6 @@
 class MainApi {
   constructor(options) {
     this._baseUrl = options.baseUrl;
-    this._headers = options.headers;
   }
 
   _getResponseData(res) {
@@ -18,7 +17,10 @@ class MainApi {
   getUserInfo = () => {
     return this._request(`${this._baseUrl}/users/me`, {
       method: "GET",
-      headers: this._headers,
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem("jwt")}`,
+      },
       credentials: "include",
     });
   };
@@ -26,7 +28,10 @@ class MainApi {
   getSavedMovies = () => {
     return this._request(`${this._baseUrl}/movies`, {
       method: "GET",
-      headers: this._headers,
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem("jwt")}`,
+      },
       credentials: "include",
     });
   }
@@ -34,7 +39,10 @@ class MainApi {
   saveMovie = (props) => {
     return this._request(`${this._baseUrl}/movies`, {
       method: "POST",
-      headers: this._headers,
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem("jwt")}`,
+      },
       body: JSON.stringify({
         country: props.country,
         director: props.director,
@@ -55,7 +63,10 @@ class MainApi {
   deleteMovie = (movieId) => {
     return this._request(`${this._baseUrl}/movies/${movieId}`, {
       method: "DELETE",
-      headers: this._headers,
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem("jwt")}`,
+      },
       credentials: "include",
     });
   };
@@ -63,7 +74,10 @@ class MainApi {
   editProfile = (props) => {
     return this._request(`${this._baseUrl}/users/me`, {
       method: "PATCH",
-      headers: this._headers,
+      headers: {
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${localStorage.getItem("jwt")}`,
+      },
       body: JSON.stringify({
         name: props.name,
         email: props.email,
@@ -75,11 +89,7 @@ class MainApi {
 }
 
 const mainApi = new MainApi({
-  baseUrl: "api.diploma.raznex.nomoredomains.rocks",
-  headers: {
-    "Content-Type": "application/json",
-    "Accept": "application/json",
-  },
+  baseUrl: "https://api.diploma.raznex.nomoredomains.rocks",
 });
 
 export default mainApi;

@@ -31,14 +31,22 @@ class Auth {
       credentials: "include",
       body: JSON.stringify({ email, password }),
     }).then((res) => {
+      if (res.token) {
+        console.log(res.token)
+        localStorage.setItem("jwt", res.token);
+      }
       return res;
     });
   };
 
-  checkToken = () => {
+  checkToken = (jwt) => {
     return this._request(`${this._baseUrl}/users/me`, {
       method: "GET",
-      headers: this._headers,
+      headers: {
+        "Accept": "application/json",
+        'Content-Type': 'application/json',
+        authorization: `Bearer ${jwt}`,
+      },
       credentials: "include",
     });
   };
