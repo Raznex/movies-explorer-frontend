@@ -100,6 +100,7 @@
   max-width: 270px;
   max-height: 327px;
   object-fit: cover;
+  object-position: center;
 }
 
 @media screen and (max-width: 800px) {
