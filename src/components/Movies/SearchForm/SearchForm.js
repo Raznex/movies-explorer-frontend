@@ -23,7 +23,6 @@ const SearchForm = ({ onSearch, isChecked, setIsChecked, onFilterCheckbox }) => 
       input: formValue.movie,
     });
   }
-
   return (
     <section className='search'>
       <form className="search__form" onSubmit={handleSubmit}>

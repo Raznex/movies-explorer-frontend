@@ -1,7 +1,7 @@
 import React from 'react';
 import logo from "../../images/header__logo.svg";
 import './Login.css'
-import {Link, Route, Routes} from "react-router-dom";
+import { Link } from "react-router-dom";
 import useForm from "../../utils/useForm";
 
 const Login = ({handleLogin, errorMessage, setErrorMessage, isAuthLoading}) => {
@@ -53,7 +53,7 @@ const Login = ({handleLogin, errorMessage, setErrorMessage, isAuthLoading}) => {
               type="password"
               id="password-login"
               className="login__name"
-              minLength="2"
+              minLength="8"
               maxLength="40"
               required
               name="password"

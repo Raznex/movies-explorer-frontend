@@ -50,6 +50,7 @@ const Profile = ({
             onSubmit={isEditing ? handleEditProfileSubmit : handleEditClick}
       >
         <div className="profile__input">
+          <div className="profile__input-box">
           <label htmlFor="name-field" className="profile__lable">Имя</label>
           <input
             type="text"
@@ -60,11 +61,14 @@ const Profile = ({
             required
             name="name"
             value={isEditing ? formValue.name : currentUser.name}
+            onChange={handleControl}
             disabled={isEditing ? false : true}
-          >
-          </input>
+          />
+        </div>
+        <span className="name-field-error profile__span">{error.name}</span>
         </div>
         <div className="profile__input">
+          <div className="profile__input-box">
           <label htmlFor="email-field" className="profile__lable">E-mail</label>
           <input
             type="text"
@@ -77,17 +81,22 @@ const Profile = ({
             value={isEditing ? formValue.email : currentUser.email}
             onChange={handleControl}
             disabled={isEditing ? false : true}
-          >
-          </input>
+          />
         </div>
+        <span className="email-field-error profile__span">{error.email}</span>
+        </div>
+        <h2 className="profile__error">{errorMessageProfile}</h2>
         <button
           type="submit"
           className={`profile__save ${(isEditing) ? 'profile__save_active' : 'profile__save'} ${(buttonDisabled) ? 'profile__save' : ''}`}
+          disabled={(isEditing && buttonDisabled)? true : false}
         >
           {isLoading ? "Сохранение..." : "Сохранить"}
         </button>
-        <button className="profile__edit"
-                onClick={handleEditClick}
+        <button
+          type="button"
+          className="profile__edit"
+          onClick={handleEditClick}
         >
           Редактировать
         </button>

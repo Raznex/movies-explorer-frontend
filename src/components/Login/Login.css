@@ -114,7 +114,7 @@
   cursor: default;
 }
 
-.profile__save:hover {
+.login__submit:hover {
   opacity: 0.6;
   cursor: pointer;
 }

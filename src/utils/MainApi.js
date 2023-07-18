@@ -49,7 +49,7 @@ class MainApi {
         duration: props.duration,
         year: props.year,
         description: props.description,
-        image: props.image,
+        image: props.image.url,
         trailerLink: props.trailerLink,
         nameRU: props.nameRU,
         nameEN: props.nameEN,

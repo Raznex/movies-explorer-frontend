@@ -11,7 +11,6 @@ const Register = ({handleRegister, errorMessage, setErrorMessage, isAuthLoading}
   function handleSubmit(e) {
     e.preventDefault();
     handleRegister(formValue);
-    console.log(1)
   }
 
   function handleResetAll() {

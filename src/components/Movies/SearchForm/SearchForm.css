@@ -61,11 +61,10 @@
 .search__submit {
   background-color: transparent;
   background-image: url("../../../images/find.svg");
-  background-size: cover;
   background-position: center;
   border: none;
   width: 80px;
-  height: 34px;
+  height: 40px;
   background-repeat: no-repeat;
   padding: 0;
   flex-shrink: 0;
