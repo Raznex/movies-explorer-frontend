@@ -324,6 +324,7 @@ function App() {
         setCurrentUser(data.user);
         setErrorMessageProfile('');
         setIsEditing(false);
+        alert('Изменения сохранены')
       })
       .catch((err) => {
         setErrorMessageProfile(err.message);
