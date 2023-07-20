@@ -52,7 +52,13 @@ function App() {
           console.log(res);
           if (res) {
             setLoggedIn(true);
-            navigate("/", {replace: true});
+            if (location.pathname !== '/') {
+              const lastPath = location.pathname;
+              console.log(location.pathname)
+              navigate(lastPath, {replace: true});
+            } else {
+              navigate("/", {replace: true});
+            }
           }
         })
         .catch((err) => console.log(err));
@@ -62,6 +68,17 @@ function App() {
   useEffect(() => {
     cbCheckToken();
   }, []);
+
+  useEffect(() => {
+    localStorage.setItem("lastPath", location.pathname);
+  }, [location.pathname]);
+
+  useEffect(() => {
+    const lastPath = localStorage.getItem("lastPath");
+    if (lastPath) {
+      navigate(lastPath, { replace: true });
+    }
+  }, [navigate]);
 
   useEffect(() => {
     setIsPreloaderLoading(true);
