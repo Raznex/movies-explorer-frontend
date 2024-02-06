@@ -3,8 +3,8 @@ import './Header.css'
 import logo from '../../images/header__logo.svg'
 import { Link, Routes, Route, useLocation } from 'react-router-dom';
 
-const Header = ({ onOpenMenu }) => {
-  let location = useLocation();
+const Header = ({ onOpenMenu, loggedIn }) => {
+  const location = useLocation();
 
   return (
     <header className={`${(location.pathname !== "/" && location.pathname !== "/movies" && location.pathname !== "/saved-movies" && location.pathname !== "/profile") ? "header__hidden" : (location.pathname === "/" ? "header__profile" : "header")}`}>
@@ -26,12 +26,26 @@ const Header = ({ onOpenMenu }) => {
           ))}
         </Routes>
       </div>
-      <Routes>
-          <Route path="/" element={<div>
-            <Link to="/signup" id='registerLink' className={`header__link`}>Регистрация</Link>
-            <Link to="/signin" id='loginLink' className={`header__link header__link_login`}>Войти</Link>
-          </div>} />
-      </Routes>
+      {!loggedIn ? (
+        <Routes>
+          <Route path="/" element={
+            <div>
+              <Link to="/signup" id='registerLink' className={`header__link`}>Регистрация</Link>
+              <Link to="/signin" id='loginLink' className={`header__link header__link_login`}>Войти</Link>
+            </div>
+          } />
+        </Routes>
+      ) : (
+        <Routes>
+          <Route path="/" element={
+              <nav className="header__nav">
+                <Link to="/movies" id='moviesLink' className={`header__navlink header__navlink_default`}>Фильмы</Link>
+                <Link to="/saved-movies" id='savedMoviesLink' className={`header__navlink header__navlink_default`}>Сохранённые фильмы</Link>
+                <Link to="/profile" id='profileLink' className="header__navlink header__navlink-account">Аккаунт</Link>
+              </nav>
+            } />
+        </Routes>
+      )}
     </header>
   );
 };

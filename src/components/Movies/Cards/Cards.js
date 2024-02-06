@@ -1,20 +1,43 @@
 import React from 'react';
 import './Cards.css'
-import poster from '../../../images/movie_pic.png'
 import { useLocation } from 'react-router-dom';
 
-const Cards = () => {
-  let location = useLocation();
+const Cards = ({movie, onSave, onDeleteMovie }) => {
+  const location = useLocation();
+  const hours = Math.floor(movie.duration/60);
+  const min = movie.duration-(hours*60);
+  const ButtonSaveClass = `${(movie.isSaved) ? "card__like card__like_active" : "card__like"}`;
+
+  function handleSaveMovie(e) {
+    e.preventDefault();
+    onSave(movie);
+  }
+
+  function handleDeleteMovie(e) {
+    e.preventDefault();
+    onDeleteMovie(movie);
+  }
 
   return (
     <article className="card">
-      <img src={poster} alt="Постер" className="card__image"/>
+      <a href={movie.trailerLink} target="_blank" rel="noreferrer">
+        {location.pathname === "/movies" ? (
+          <img src={`https://api.nomoreparties.co${movie.image.url}`} alt="Постер" className="card__image" />
+        ) : (
+          <img src={`https://api.nomoreparties.co${movie.image}`} alt="Постер" className="card__image" />
+        )}
+      </a>
       <div className="card__container">
         <div className="card__description">
-          <p className="card__name">33 слова о дизайне</p>
-          <p className="card__duration">1ч42м</p>
+          <p className="card__name">{movie.nameRU}</p>
+          <p className="card__duration">{hours ? `${hours}ч` : ''} {min ? `${min}м` : ''}</p>
         </div>
-        <button className={`${(location.pathname === "/movies") ? "card__like" : "card__like_saved"}`}></button>
+        <button id="buttonLike" className={`${(location.pathname === "/movies") ? ButtonSaveClass : "card__like_hidden"}`}
+                onClick={handleSaveMovie}>
+        </button>
+        <button id="buttonTrash" className={`${(location.pathname === "/saved-movies") ? "card__like_saved" : "card__like_hidden"}`}
+                onClick={handleDeleteMovie}>
+        </button>
       </div>
     </article>
   );

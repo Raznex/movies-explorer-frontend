@@ -3,7 +3,7 @@ import './Footer.css'
 import { useLocation } from 'react-router-dom';
 
 const Footer = () => {
-  let location = useLocation();
+  const location = useLocation();
 
   return (
     <footer className={`${(location.pathname === "/movies" || location.pathname === "/saved-movies" || location.pathname === "/") ? "footer" : "footer__hidden"}`}>
